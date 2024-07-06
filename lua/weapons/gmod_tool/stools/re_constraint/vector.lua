@@ -1,8 +1,3 @@
-local BaseClass = BaseClass
-local isvector = isvector
-local Vector = Vector
-local derma_DefineControl = CLIENT and derma.DefineControl
-
 --[[
 	prop_generic is the base for all other properties.
 	All the business should be done in :Setup using inline functions.
@@ -39,4 +34,4 @@ function PANEL:Setup( vars )
 	end
 end
 
-derma_DefineControl( "DProperty_Vector", "", PANEL, "DProperty_Generic" )
+derma.DefineControl( "DProperty_Vector", "", PANEL, "DProperty_Generic" )

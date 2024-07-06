@@ -1,6 +1,3 @@
-local tonumber = tonumber
-local derma_DefineControl = CLIENT and derma.DefineControl
-
 --[[
 	prop_generic is the base for all other properties.
 	All the business should be done in :Setup using inline functions.
@@ -32,4 +29,4 @@ function PANEL:IsEditing()
 	return self.Entry:IsEditing()
 end
 
-derma_DefineControl( "DProperty_FloatNoSlider", "", PANEL, "DProperty_Generic" )
+derma.DefineControl( "DProperty_FloatNoSlider", "", PANEL, "DProperty_Generic" )

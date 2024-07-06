@@ -1,11 +1,9 @@
-local vgui_RegisterTable = CLIENT and vgui.RegisterTable
 local IsValid = IsValid
 local surface_SetDrawColor = CLIENT and surface.SetDrawColor
 local surface_DrawRect = CLIENT and surface.DrawRect
-local derma_DefineControl = CLIENT and derma.DefineControl
 
 -- The row - contained in a category.
-local tblRow = vgui_RegisterTable( {
+local tblRow = vgui.RegisterTable( {
 
 	Init = function( self )
 		self:Dock( TOP )
@@ -16,9 +14,7 @@ local tblRow = vgui_RegisterTable( {
 
 		self.Container = self:Add( "Panel" )
 		self.Container:Dock( FILL )
-	end,
 
-	PerformLayout = function( self )
 		self:SetTall( 20 )
 		self.Label:SetWide( self:GetWide() * 0.30 )
 	end,
@@ -26,9 +22,13 @@ local tblRow = vgui_RegisterTable( {
 	Setup = function( self, type, vars )
 		self.Container:Clear()
 
-		local Name = "DProperty_" .. type
+		if type == "table" then
+			type = "VectorColor"
+		end
 
-		self.Inner = self.Container:Add( Name )
+		local name = "DProperty_" .. type
+
+		self.Inner = self.Container:Add( name )
 		if not IsValid( self.Inner ) then self.Inner = self.Container:Add( "DProperty_Generic" ) end
 
 		self.Inner:SetRow( self )
@@ -73,7 +73,7 @@ local tblRow = vgui_RegisterTable( {
 }, "Panel" )
 
 -- The category - contained in a dproperties
-local tblCategory = vgui_RegisterTable( {
+local tblCategory = vgui.RegisterTable( {
 
 	Init = function( self )
 		self:Dock( TOP )
@@ -90,7 +90,7 @@ local tblCategory = vgui_RegisterTable( {
 		self.Container = self:Add( "Panel" )
 		self.Container:Dock( TOP )
 		self.Container:DockMargin( 1, 0, 0, 0 )
-		self.Container.Paint = function( pnl, w, h )
+		self.Container.Paint = function( _, w, h )
 			local Skin = self:GetSkin()
 			surface_SetDrawColor( Skin.Colours.Properties.Label_Selected )
 			surface_DrawRect( 0, 0, w, h )
@@ -133,11 +133,7 @@ local PANEL = {}
 
 function PANEL:Init()
 	self.Categories = {}
-end
-
--- Size to children vertically
-function PANEL:PerformLayout()
-	self:SizeToChildren( false, true )
+	self:SizeToChildren( false, true ) -- Size to children vertically
 end
 
 function PANEL:Clear()
@@ -174,4 +170,4 @@ function PANEL:CreateRow( category, name )
 	local cat = self:GetCategory( category, true )
 	return cat:GetRow( name, true )
 end
-derma_DefineControl( "DPropertiesEdit", "", PANEL, "Panel" )
+derma.DefineControl( "DPropertiesEdit", "", PANEL, "Panel" )
