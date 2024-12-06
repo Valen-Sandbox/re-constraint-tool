@@ -105,6 +105,8 @@ function TOOL:DrawHUD()
 	end
 end
 
+if CLIENT then return end
+
 local function reconstraintProperties( Factory, Con, ply, str )
 	net.Start( str )
 	net.WriteString( "properties" )
